@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List</title>
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    table {
+        width: 40%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+</head>
+<body>
+
+<h2>To-Do List</h2>
+
+<form id="todoForm">
+    <label for="todoInput">Add a To-Do:</label>
+    <input type="text" id="todoInput" required>
+    <button type="submit">Add</button>
+</form>
+
+<table id="todoTable">
+    <thead>
+        <tr>
+            <th>To-Do</th>
+        </tr>
+    </thead>
+    <tbody id="todoList">
+    </tbody>
+</table>
+
+<script>
+    const todoList = {
+        tasks: [],
+        addTask: function(task) {
+            this.tasks.push(task);
+        },
+        displayTasks: function() {
+            const tableBody = document.getElementById('todoList');
+            tableBody.innerHTML = ''; 
+            this.tasks.forEach(task => {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.textContent = task;
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+            });
+        }
+    };
+
+    const form = document.getElementById('todoForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const input = document.getElementById('todoInput');
+        const task = input.value.trim();
+        if (task !== '') {
+            todoList.addTask(task);
+            input.value = ''; 
+            todoList.displayTasks();
+        }
+    });
+
+    todoList.displayTasks();
+</script>
+
+</body>
+</html>
